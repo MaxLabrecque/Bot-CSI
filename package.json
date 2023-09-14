@@ -1,0 +1,24 @@
+{
+	"name": "CSI-Discord-Bot",
+	"version": "1.0.0",
+	"description":"Bot Discord pour le CSI",
+	"main":"index.js",
+	"author":"Macks_s",
+  "type": "module",
+	"scripts": {
+		"dev": "nodemon .",
+		"start": "node .",
+		"docker:build": "docker image build -t macks_s/csi-bot .",
+    "send:slash": "node ./src/registerSlashCommands.js"
+	},
+	"dependencies": {
+		"discord.js": "14.13.0",
+		"dotenv": "16.3.1"
+	},
+	"devDependencies": {
+		"nodemon": "3.0.1"
+	}
+}
+
+
+
