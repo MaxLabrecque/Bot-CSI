@@ -1,16 +1,17 @@
+import dotenv from 'dotenv'
+dotenv.config({path: '../.env'})
+
 import {REST, Routes} from 'discord.js';
-import {} from 'dotenv/config'
 
 const rest = new REST({version: '10'}).setToken(process.env.BOT_TOKEN);
 
 //Temp Slash Commands
 const commands = [
   {
-    name: 'ping',
-    description: 'Replies with Pong!',
+    name: 'help',
+    description: 'Help for the ctf team',
   }
 ]
-
 
 try {
   console.log("Started refreshing application (/) commands.");
@@ -21,3 +22,4 @@ try {
 } catch (error) {
   console.error(error);
 }
+

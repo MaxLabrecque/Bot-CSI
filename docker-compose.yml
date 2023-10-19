@@ -1,0 +1,7 @@
+version: '1'
+services:
+  discordBot:
+    container_name: botDiscord
+    image: discordcsibot
+    env_file:
+      - .env
