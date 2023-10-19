@@ -17,6 +17,12 @@ client.on('interactionCreate', async interaction => {
     await handleBoutonHelp(client, interaction)
     return
   }
+
+  if (!interaction.channel.name.match('equipe-[0-1][0-9]')) {
+    interaction.reply({content: "Please use this command in a team channel", ephemeral: true})
+    return
+  }
+
   if (!interaction.isChatInputCommand()) return;
 
   if (interaction.commandName === 'help') {

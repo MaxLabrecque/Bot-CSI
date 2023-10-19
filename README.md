@@ -26,3 +26,4 @@
 - Remplir le fichier .env avec les informations du .env.example
 - Lancer la commande `npm install`
 - Lancer la commande `node index.js`
+
