@@ -1,5 +1,13 @@
 import {EmbedBuilder} from 'discord.js';
 
+/**
+ * Create the embed for the closed tickets
+ *
+ * @param channelName The name of the channel that the message has been sent
+ * @param taker The user that took the ticket
+ * @returns {EmbedBuilder} The embed for the closed tickets
+ * @constructor The embed for the closed tickets
+ */
 function CreateClosedTicketsEmbed(channelName, taker) {
   return new EmbedBuilder()
   .setTitle('Ticket fermé')
