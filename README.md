@@ -12,7 +12,7 @@
 ### Docker-compose
 #### Prérequis
 - Docker
-### Procédure
+#### Procédure
 - Créer un fichier .env à la racine du projet
 - Remplir le fichier .env avec les informations du .env.example
 - Lancer la commande `docker-compose up -d --build`
@@ -27,3 +27,6 @@
 - Lancer la commande `npm install`
 - Lancer la commande `node index.js`
 
+### Ajouter de nouvelle commande
+- Ajouter le nom de la commande et la description dans registerSlashCommands.js
+- Lancer la commande `node registerSlashCommands.js`
