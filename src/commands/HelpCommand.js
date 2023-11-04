@@ -18,6 +18,7 @@ let sendedChannel = undefined;
 async function helpCommand(interaction, client) {
   await interaction.deferReply({ephemeral: true});
   sendedChannel = interaction.channel;
+
   await client.channels.cache.get(process.env.LOG_CHANNEL_ID).send(
       {
         embeds: [CreateNewTicketsEmbed(interaction.channel.name)],
