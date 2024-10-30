@@ -5,3 +5,12 @@ services:
     build: .
     env_file:
       - .env
+  mongodb:
+    container_name: mongoDB
+    image: mongo
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/data/db

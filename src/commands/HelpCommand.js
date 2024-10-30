@@ -6,6 +6,7 @@ import { createButtonAcceptTickets } from "../buttons/AcceptTicketsButton.js";
 import { createPrisTicketEmbed } from "../embed/EmbedPrisTickets.js";
 import { createButtonsClosedTickets } from "../buttons/ClosedTicketsButtons.js";
 import { CreateClosedTicketsEmbed } from "../embed/EmbedClosedTickets.js";
+import { MessageContextMenuCommandInteraction } from "discord.js";
 
 let sendedChannel = undefined;
 
@@ -19,6 +20,13 @@ import process from "process";
 async function helpCommand(interaction, client) {
   await interaction.deferReply({ ephemeral: true });
   sendedChannel = interaction.channel;
+  if (interaction.options._hoistedOptions[0] === undefined) {
+    interaction.editReply({
+      content: "Veuillez renseigner le nom du challenge",
+      ephemeral: true,
+    });
+    return;
+  }
   const challengeNameInput = interaction.options._hoistedOptions[0].value;
 
   await client.channels.cache.get(process.env.LOG_CHANNEL_ID).send(
