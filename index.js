@@ -3,6 +3,8 @@ import { handleBoutonHelp, helpCommand } from "./src/commands/HelpCommand.js";
 import BotClient from "./src/structures/BotClient.js";
 import { ActivityType } from "discord.js";
 
+const avatarPath = "assets/logo.webp";
+
 const client = new BotClient();
 client.on("ready", () => {
   console.log("Discord bot is on !");
@@ -13,7 +15,7 @@ client.on("ready", () => {
     type: ActivityType.Custom,
   });
 
-  client.user.setAvatar("assets/logo.webp");
+  client.user.setAvatar(avatarPath);
 });
 
 client.on("interactionCreate", async (interaction) => {
