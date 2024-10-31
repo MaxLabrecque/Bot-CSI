@@ -1,4 +1,4 @@
-import {} from "dotenv/config";
+import { } from "dotenv/config";
 import { handleBoutonHelp, helpCommand } from "./src/commands/HelpCommand.js";
 import BotClient from "./src/structures/BotClient.js";
 import { ActivityType } from "discord.js";
@@ -12,6 +12,8 @@ client.on("ready", () => {
     name: "Doing Some CTFs",
     type: ActivityType.Custom,
   });
+
+  client.user.setAvatar("assets/logo.webp");
 });
 
 client.on("interactionCreate", async (interaction) => {
