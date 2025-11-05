@@ -1,4 +1,4 @@
-import {ActionRowBuilder, ButtonBuilder} from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder } from "discord.js";
 
 /**
  * Create the button to accept tickets
@@ -7,11 +7,11 @@ import {ActionRowBuilder, ButtonBuilder} from 'discord.js';
  */
 function createButtonAcceptTickets() {
   const confirm = new ButtonBuilder()
-    .setCustomId('take')
-    .setLabel('Prendre tickets')
-    .setStyle('Primary');
+    .setCustomId("take")
+    .setLabel("Prendre tickets")
+    .setStyle("Primary");
 
- return new ActionRowBuilder().addComponents(confirm);
+  return new ActionRowBuilder().addComponents(confirm);
 }
 
-export {createButtonAcceptTickets}
+export { createButtonAcceptTickets };

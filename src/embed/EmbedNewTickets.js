@@ -7,13 +7,17 @@ import { EmbedBuilder } from "discord.js";
  * @returns {EmbedBuilder} The embed for the new tickets
  * @constructor The embed for the new tickets
  */
-function CreateNewTicketsEmbed(channelName, userMessage, challengeNameInput) {
+function CreateNewTicketsEmbed(channelName, channelId, challengeNameInput) {
   return new EmbedBuilder()
     .setTitle("Ticket")
     .setDescription(
       `Un ticket a été ouvert dans le channel **${channelName}** ! Challenge : **${challengeNameInput}**`,
     )
-    .setColor("#3aa55c");
+    .setColor("#3aa55c")
+    .addFields({
+      name: "Channel ID",
+      value: channelId,
+    });
 }
 
 export { CreateNewTicketsEmbed };

@@ -15,7 +15,7 @@ client.on("ready", () => {
     type: ActivityType.Custom,
   });
 
-  client.user.setAvatar(avatarPath);
+  // client.user.setAvatar(avatarPath);
 });
 
 client.on("interactionCreate", async (interaction) => {
@@ -25,7 +25,7 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   if (
-    !interaction.channel.name.match("equipe-[0-1][0-9]")
+    !interaction.channel.name.match("equipe-([0-1][0-9]|test)")
   ) {
     interaction.reply({
       content: "Please use this command in a team channel",

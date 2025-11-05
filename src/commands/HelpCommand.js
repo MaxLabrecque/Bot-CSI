@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-
-dotenv.config({ path: "../../.env" });
 import { CreateNewTicketsEmbed } from "../embed/EmbedNewTickets.js";
 import { createButtonAcceptTickets } from "../buttons/AcceptTicketsButton.js";
 import { createPrisTicketEmbed } from "../embed/EmbedPrisTickets.js";
@@ -8,7 +5,7 @@ import { createButtonsClosedTickets } from "../buttons/ClosedTicketsButtons.js";
 import { CreateClosedTicketsEmbed } from "../embed/EmbedClosedTickets.js";
 import { MessageContextMenuCommandInteraction } from "discord.js";
 
-let sendedChannel = undefined;
+const ticketHistory = new Map();
 
 /**
 import process from "process";
@@ -19,7 +16,7 @@ import process from "process";
  */
 async function helpCommand(interaction, client) {
   await interaction.deferReply({ ephemeral: true });
-  sendedChannel = interaction.channel;
+
   if (interaction.options._hoistedOptions[0] === undefined) {
     interaction.editReply({
       content: "Veuillez renseigner le nom du challenge",
@@ -29,18 +26,30 @@ async function helpCommand(interaction, client) {
   }
   const challengeNameInput = interaction.options._hoistedOptions[0].value;
 
-  await client.channels.cache.get(process.env.LOG_CHANNEL_ID).send(
+  const logChannel = await client.channels.fetch(process.env.LOG_CHANNEL_ID);
+
+  const sentMessage = await logChannel.send(
     {
       embeds: [
         CreateNewTicketsEmbed(
           interaction.channel.name,
-          interaction,
+          interaction.channel.id,
           challengeNameInput,
         ),
       ],
       components: [createButtonAcceptTickets()],
     },
   );
+
+  ticketHistory.set(sentMessage.id, {
+    channelId: interaction.channel.id,
+    channelName: interaction.channel.name,
+    userId: interaction.user.id,
+    userName: interaction.user.username,
+    challengeName: challengeNameInput,
+    timestamp: Date.now(),
+    status: "open",
+  });
 
   await interaction.editReply("Tickets envoyes !");
 }
@@ -54,21 +63,48 @@ async function helpCommand(interaction, client) {
  */
 async function handleBoutonHelp(client, interaction) {
   if (interaction.customId === "take") {
+    const ticketInfo = ticketHistory.get(interaction.message.id);
+
+    if (!ticketInfo) {
+      console.error("Ticket not found in history");
+      await interaction.reply({
+        content: "Erreur: ticket introuvable dans l'historique",
+        ephemeral: true,
+      });
+      return;
+    }
+
+    // Update ticket status
+    ticketInfo.status = "taken";
+    ticketInfo.takenBy = interaction.user.id;
+    ticketInfo.takenAt = Date.now();
+
+    const originalChannelId = interaction.message.embeds[0].fields[0].value;
+
     await interaction.update(
       {
         embeds: [
-          createPrisTicketEmbed(interaction.channel.name, interaction.user),
+          createPrisTicketEmbed(ticketInfo.channelName, interaction.user),
         ],
         components: [createButtonsClosedTickets()],
       },
     );
-    sendedChannel.send("Ticket pris par <@" + interaction.user.id + ">");
+
+    let channel = null;
+    console.log(originalChannelId);
+    if (originalChannelId) {
+      channel = await client.channels.fetch(originalChannelId);
+      await channel.send("Ticket pris par <@" + interaction.user.id + ">");
+    }
   }
+
   if (interaction.customId === "closed") {
+    const ticketInfo = ticketHistory.get(interaction.message.id);
+
     await interaction.update(
       {
         embeds: [
-          CreateClosedTicketsEmbed(interaction.channel.name, interaction.user),
+          CreateClosedTicketsEmbed(ticketInfo.channelName, interaction.user),
         ],
         components: [],
       },
