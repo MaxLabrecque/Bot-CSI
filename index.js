@@ -1,7 +1,8 @@
-import { } from "dotenv/config";
+import {} from "dotenv/config";
 import { handleBoutonHelp, helpCommand } from "./src/commands/HelpCommand.js";
 import BotClient from "./src/structures/BotClient.js";
 import { ActivityType } from "discord.js";
+import { sendBroadcastMessage } from "./src/commands/TeamBroadcastCommand.js";
 
 const avatarPath = "assets/logo.webp";
 
@@ -24,9 +25,12 @@ client.on("interactionCreate", async (interaction) => {
     return;
   }
 
-  if (
-    !interaction.channel.name.match("equipe-([0-1][0-9]|test)")
-  ) {
+  if (interaction.commandName === "team-broadcast") {
+    await sendBroadcastMessage(interaction);
+    return;
+  }
+
+  if (!interaction.channel.name.match("equipe-([0-1][0-9]|test)")) {
     interaction.reply({
       content: "Please use this command in a team channel",
       ephemeral: true,

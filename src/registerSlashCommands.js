@@ -15,9 +15,20 @@ const commands = [
     description: "Help for the ctf team",
     options: [
       {
-        "name": "challenge",
-        "description": "Name of the challenge",
-        "type": 3,
+        name: "challenge",
+        description: "Name of the challenge",
+        type: 3,
+      },
+    ],
+  },
+  {
+    name: "team-broadcast",
+    description: "Broadcast a message to all teams",
+    options: [
+      {
+        name: "message",
+        description: "The message to broadcast",
+        type: 3,
       },
     ],
   },
