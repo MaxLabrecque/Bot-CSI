@@ -30,6 +30,7 @@ class BotClient extends Client {
         "ManageChannels",
         "ManageGuild",
         "ManageMessages",
+        "ManageRoles",
         "ReadMessageHistory",
         "SendMessages",
         "ViewChannel",

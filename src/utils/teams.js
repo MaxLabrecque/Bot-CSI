@@ -14,6 +14,14 @@ const teamChannelRegex = new RegExp(
 );
 
 /**
+ * Matches only numbered team channels: <prefix>XX (2 digits)
+ * @type {RegExp}
+ */
+const numberedTeamRegex = new RegExp(
+  `^${escapeRegex(config.teamChannelPrefix)}(\\d{2})$`,
+);
+
+/**
  * Check if a channel name is a team channel
  *
  * @param {string} name The channel name
@@ -34,4 +42,25 @@ function teamChannelLabel() {
     .join(" ou ");
 }
 
-export { isTeamChannel, teamChannelLabel };
+/**
+ * Get the number of a numbered team channel or role ("equipe-07" -> 7)
+ *
+ * @param {string} name The channel or role name
+ * @returns {number|null} The number, or null if not a numbered team name
+ */
+function teamNumber(name) {
+  const match = numberedTeamRegex.exec(name ?? "");
+  return match ? Number(match[1]) : null;
+}
+
+/**
+ * Build the channel / role name of a team number (7 -> "equipe-07")
+ *
+ * @param {number} number The team number
+ * @returns {string}
+ */
+function teamChannelName(number) {
+  return config.teamChannelPrefix + String(number).padStart(2, "0");
+}
+
+export { isTeamChannel, teamChannelLabel, teamChannelName, teamNumber };

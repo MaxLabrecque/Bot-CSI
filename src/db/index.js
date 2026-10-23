@@ -29,6 +29,15 @@ db.exec(`
     closed_by TEXT,
     closed_at INTEGER
   );
+
+  CREATE TABLE IF NOT EXISTS teams (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    number INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    channel_id TEXT NOT NULL UNIQUE,
+    role_id TEXT NOT NULL,
+    created_at INTEGER NOT NULL
+  );
 `);
 
 /**

@@ -23,6 +23,7 @@ const config = {
   moderatorRole: process.env.MODERATOR_ROLE || "moderator",
   adminRole: process.env.ADMIN_ROLE || "challenges designer",
   ticketStaleMinutes: Number(process.env.TICKET_STALE_MINUTES) || 5,
+  teamCategoryId: process.env.TEAM_CATEGORY_ID || null,
   dbPath: process.env.DB_PATH || "db/bot.sqlite",
 };
 

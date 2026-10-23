@@ -9,6 +9,13 @@ import {
 } from "./src/commands/TeamBroadcastCommand.js";
 import { ticketsCommand } from "./src/commands/TicketsCommand.js";
 import { statsCommand } from "./src/commands/StatsCommand.js";
+import {
+  addMemberCommand,
+  handleTeamsButton,
+  pruneTeamsCommand,
+  registerTeamCommand,
+  removeTeamCommand,
+} from "./src/commands/TeamsCommand.js";
 import { startStaleTicketsReminder } from "./src/tasks/StaleTicketsReminder.js";
 import { isTeamChannel } from "./src/utils/teams.js";
 
@@ -33,6 +40,8 @@ client.on("interactionCreate", async (interaction) => {
   if (interaction.isButton()) {
     if (interaction.customId.startsWith("broadcast-")) {
       await handleBroadcastButton(client, interaction);
+    } else if (interaction.customId.startsWith("teams-")) {
+      await handleTeamsButton(client, interaction);
     } else {
       await handleBoutonHelp(client, interaction);
     }
@@ -60,6 +69,26 @@ client.on("interactionCreate", async (interaction) => {
 
   if (interaction.commandName === "stats") {
     await statsCommand(interaction);
+    return;
+  }
+
+  if (interaction.commandName === "register-team") {
+    await registerTeamCommand(interaction, client);
+    return;
+  }
+
+  if (interaction.commandName === "add-member") {
+    await addMemberCommand(interaction);
+    return;
+  }
+
+  if (interaction.commandName === "remove-team") {
+    await removeTeamCommand(interaction);
+    return;
+  }
+
+  if (interaction.commandName === "prune-teams") {
+    await pruneTeamsCommand(interaction);
     return;
   }
 

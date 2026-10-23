@@ -83,6 +83,61 @@ const commands = [
       },
     ],
   },
+  {
+    name: "register-team",
+    description: "Créer une équipe : rôle + channel privé (moderator only)",
+    options: [
+      {
+        name: "name",
+        description: "Nom de l'équipe",
+        type: 3,
+        required: true,
+        max_length: 100,
+      },
+      {
+        name: "members",
+        description: "Membres à mentionner : @joueur1 @joueur2 ...",
+        type: 3,
+        required: true,
+      },
+    ],
+  },
+  {
+    name: "add-member",
+    description: "Ajouter un membre à une équipe (moderator only)",
+    options: [
+      {
+        name: "team",
+        description: "Channel de l'équipe",
+        type: 7,
+        channel_types: [0],
+        required: true,
+      },
+      {
+        name: "member",
+        description: "Membre à ajouter",
+        type: 6,
+        required: true,
+      },
+    ],
+  },
+  {
+    name: "remove-team",
+    description: "Supprimer une équipe : channel + rôle (moderator only)",
+    options: [
+      {
+        name: "team",
+        description: "Channel de l'équipe",
+        type: 7,
+        channel_types: [0],
+        required: true,
+      },
+    ],
+  },
+  {
+    name: "prune-teams",
+    description: "Supprimer tous les channels et rôles d'équipe sauf test (moderator only)",
+  },
 ];
 
 /**
