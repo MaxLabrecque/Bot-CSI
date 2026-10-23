@@ -33,6 +33,22 @@ const commands = [
       },
     ],
   },
+  {
+    name: "tickets",
+    description: "Liste des tickets en cours (moderator only)",
+    options: [
+      {
+        name: "status",
+        description: "Filtrer par statut",
+        type: 3,
+        choices: [
+          { name: "Tous (ouverts + pris)", value: "all" },
+          { name: "Ouverts", value: "open" },
+          { name: "Pris", value: "taken" },
+        ],
+      },
+    ],
+  },
 ];
 
 /**

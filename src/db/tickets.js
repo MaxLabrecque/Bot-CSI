@@ -58,4 +58,55 @@ function closeTicket(logMessageId, userId) {
   return result.changes === 1;
 }
 
-export { createTicket, getTicketByMessageId, takeTicket, closeTicket };
+/**
+ * List the tickets not closed yet, oldest first
+ *
+ * @param {"open"|"taken"|"all"} status Filter on status ("all" = open + taken)
+ * @returns The tickets
+ */
+function listActiveTickets(status = "all") {
+  const statuses = status === "all" ? ["open", "taken"] : [status];
+  return db
+    .prepare(
+      `SELECT * FROM tickets WHERE status IN (${statuses.map(() => "?").join(", ")})
+       ORDER BY created_at`,
+    )
+    .all(...statuses);
+}
+
+/**
+ * List the open tickets waiting since before a date and not reminded yet
+ *
+ * @param {number} olderThan Timestamp (ms)
+ * @returns The tickets
+ */
+function listStaleTickets(olderThan) {
+  return db
+    .prepare(
+      `SELECT * FROM tickets
+       WHERE status = 'open' AND created_at <= ? AND reminded_at IS NULL
+       ORDER BY created_at`,
+    )
+    .all(olderThan);
+}
+
+/**
+ * Mark tickets as reminded so admins are pinged only once per ticket
+ *
+ * @param {number[]} ids The ticket ids
+ */
+function markTicketsReminded(ids) {
+  const stmt = db.prepare("UPDATE tickets SET reminded_at = ? WHERE id = ?");
+  const now = Date.now();
+  for (const id of ids) stmt.run(now, id);
+}
+
+export {
+  createTicket,
+  getTicketByMessageId,
+  takeTicket,
+  closeTicket,
+  listActiveTickets,
+  listStaleTickets,
+  markTicketsReminded,
+};

@@ -2,6 +2,7 @@
 
 ## Commande(s) possible(s) :
 - **/help** : Envoie un ticket aux admins pour obtenir du support (dans un channel `equipe-XX`)
+- **/tickets [status]** : Liste des tickets ouverts / pris (rôle `moderator` ou `ADMIN_ROLE` requis)
 - **/team-broadcast** : Envoie un message à tous les channels `equipe-XX` et `equipe-test` (rôle `moderator` requis)
 
 ## Moyens d'utiliser le bot
@@ -38,6 +39,8 @@
 | `TEAM_CHANNEL_PREFIX` | non | `equipe-` | Préfixe des channels d'équipe (`equipe-XX`) |
 | `TEAM_CHANNEL_EXTRA` | non | `test` | Autres noms acceptés, séparés par des virgules |
 | `MODERATOR_ROLE` | non | `moderator` | Rôle des commandes modérateur |
+| `ADMIN_ROLE` | non | `MODERATOR_ROLE` | Rôle pingé pour les tickets en attente (doit être mentionnable) |
+| `TICKET_STALE_MINUTES` | non | `5` | Délai avant de pinger `ADMIN_ROLE` pour un ticket non pris |
 | `DB_PATH` | non | `db/bot.sqlite` | Fichier de la base SQLite (tickets) |
 
 ### Ajouter de nouvelle commande

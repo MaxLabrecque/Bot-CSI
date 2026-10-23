@@ -3,6 +3,8 @@ import { handleBoutonHelp, helpCommand } from "./src/commands/HelpCommand.js";
 import BotClient from "./src/structures/BotClient.js";
 import { ActivityType } from "discord.js";
 import { sendBroadcastMessage } from "./src/commands/TeamBroadcastCommand.js";
+import { ticketsCommand } from "./src/commands/TicketsCommand.js";
+import { startStaleTicketsReminder } from "./src/tasks/StaleTicketsReminder.js";
 import { isTeamChannel } from "./src/utils/teams.js";
 
 const avatarPath = "assets/logo.webp";
@@ -18,6 +20,8 @@ client.on("ready", () => {
   });
 
   // client.user.setAvatar(avatarPath);
+
+  startStaleTicketsReminder(client);
 });
 
 client.on("interactionCreate", async (interaction) => {
@@ -30,6 +34,11 @@ client.on("interactionCreate", async (interaction) => {
 
   if (interaction.commandName === "team-broadcast") {
     await sendBroadcastMessage(interaction);
+    return;
+  }
+
+  if (interaction.commandName === "tickets") {
+    await ticketsCommand(interaction);
     return;
   }
 
