@@ -25,20 +25,20 @@ client.on("interactionCreate", async (interaction) => {
     return;
   }
 
+  if (!interaction.isChatInputCommand()) return;
+
   if (interaction.commandName === "team-broadcast") {
     await sendBroadcastMessage(interaction);
     return;
   }
 
-  if (!interaction.channel.name.match("equipe-([0-1][0-9]|test)")) {
-    interaction.reply({
-      content: "Please use this command in a team channel",
+  if (!interaction.channel?.name?.match("equipe-([0-1][0-9]|test)")) {
+    await interaction.reply({
+      content: "Veuillez utiliser cette commande dans un channel d'équipe",
       ephemeral: true,
     });
     return;
   }
-
-  if (!interaction.isChatInputCommand()) return;
 
   if (interaction.commandName === "help") {
     await helpCommand(interaction, client);

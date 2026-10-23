@@ -3,12 +3,10 @@ import { createButtonAcceptTickets } from "../buttons/AcceptTicketsButton.js";
 import { createPrisTicketEmbed } from "../embed/EmbedPrisTickets.js";
 import { createButtonsClosedTickets } from "../buttons/ClosedTicketsButtons.js";
 import { CreateClosedTicketsEmbed } from "../embed/EmbedClosedTickets.js";
-import { MessageContextMenuCommandInteraction } from "discord.js";
 
 const ticketHistory = new Map();
 
 /**
-import process from "process";
  * Definition for the /help command
  *
  * @param interaction The interaction object of the command
@@ -17,14 +15,11 @@ import process from "process";
 async function helpCommand(interaction, client) {
   await interaction.deferReply({ ephemeral: true });
 
-  if (interaction.options._hoistedOptions[0] === undefined) {
-    interaction.editReply({
-      content: "Veuillez renseigner le nom du challenge",
-      ephemeral: true,
-    });
+  const challengeNameInput = interaction.options.getString("challenge");
+  if (!challengeNameInput) {
+    await interaction.editReply("Veuillez renseigner le nom du challenge");
     return;
   }
-  const challengeNameInput = interaction.options._hoistedOptions[0].value;
 
   const logChannel = await client.channels.fetch(process.env.LOG_CHANNEL_ID);
 
@@ -51,7 +46,7 @@ async function helpCommand(interaction, client) {
     status: "open",
   });
 
-  await interaction.editReply("Tickets envoyes !");
+  await interaction.editReply("Ticket envoyé !");
 }
 
 /**
@@ -74,6 +69,14 @@ async function handleBoutonHelp(client, interaction) {
       return;
     }
 
+    if (ticketInfo.status !== "open") {
+      await interaction.reply({
+        content: "Ce ticket a déjà été pris",
+        ephemeral: true,
+      });
+      return;
+    }
+
     // Update ticket status
     ticketInfo.status = "taken";
     ticketInfo.takenBy = interaction.user.id;
@@ -91,7 +94,6 @@ async function handleBoutonHelp(client, interaction) {
     );
 
     let channel = null;
-    console.log(originalChannelId);
     if (originalChannelId) {
       channel = await client.channels.fetch(originalChannelId);
       await channel.send("Ticket pris par <@" + interaction.user.id + ">");
@@ -100,6 +102,17 @@ async function handleBoutonHelp(client, interaction) {
 
   if (interaction.customId === "closed") {
     const ticketInfo = ticketHistory.get(interaction.message.id);
+
+    if (!ticketInfo) {
+      console.error("Ticket not found in history");
+      await interaction.reply({
+        content: "Erreur: ticket introuvable dans l'historique",
+        ephemeral: true,
+      });
+      return;
+    }
+
+    ticketInfo.status = "closed";
 
     await interaction.update(
       {

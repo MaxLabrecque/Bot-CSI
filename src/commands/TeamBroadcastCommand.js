@@ -1,11 +1,4 @@
-import { SlashCommandBuilder, ChannelType } from "discord.js";
-
-export const data = new SlashCommandBuilder()
-  .setName("team-broadcast")
-  .setDescription(
-    "Envoyer un message à tous les canaux equipe-XX et equipe-test (moderator only)"
-  )
-  .addStringOption((opt) => opt.setName("message").setRequired(true));
+import { ChannelType } from "discord.js";
 
 export async function sendBroadcastMessage(interaction) {
   const guild = interaction.guild;

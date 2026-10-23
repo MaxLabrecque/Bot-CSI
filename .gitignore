@@ -2,3 +2,5 @@
 .idea/
 node_modules/
 .env
+data/
+todo.md

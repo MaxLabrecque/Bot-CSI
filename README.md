@@ -1,7 +1,8 @@
 # Bot-CSI
 
 ## Commande(s) possible(s) :
-- **/help** : Envoie un ticket aux admins pour obtenir du support
+- **/help** : Envoie un ticket aux admins pour obtenir du support (dans un channel `equipe-XX`)
+- **/team-broadcast** : Envoie un message à tous les channels `equipe-XX` et `equipe-test` (rôle `moderator` requis)
 
 ## Moyens d'utiliser le bot
 - docker-compose
