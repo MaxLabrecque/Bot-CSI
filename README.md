@@ -38,6 +38,7 @@
 | `TEAM_CHANNEL_PREFIX` | non | `equipe-` | Préfixe des channels d'équipe (`equipe-XX`) |
 | `TEAM_CHANNEL_EXTRA` | non | `test` | Autres noms acceptés, séparés par des virgules |
 | `MODERATOR_ROLE` | non | `moderator` | Rôle des commandes modérateur |
+| `DB_PATH` | non | `db/bot.sqlite` | Fichier de la base SQLite (tickets) |
 
 ### Ajouter de nouvelle commande
 - Ajouter le nom de la commande et la description dans registerSlashCommands.js

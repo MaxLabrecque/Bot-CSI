@@ -21,6 +21,7 @@ const config = {
     .map((name) => name.trim())
     .filter(Boolean),
   moderatorRole: process.env.MODERATOR_ROLE || "moderator",
+  dbPath: process.env.DB_PATH || "db/bot.sqlite",
 };
 
 export default config;

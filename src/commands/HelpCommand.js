@@ -4,8 +4,12 @@ import { createPrisTicketEmbed } from "../embed/EmbedPrisTickets.js";
 import { createButtonsClosedTickets } from "../buttons/ClosedTicketsButtons.js";
 import { CreateClosedTicketsEmbed } from "../embed/EmbedClosedTickets.js";
 import config from "../config.js";
-
-const ticketHistory = new Map();
+import {
+  closeTicket,
+  createTicket,
+  getTicketByMessageId,
+  takeTicket,
+} from "../db/tickets.js";
 
 /**
  * Definition for the /help command
@@ -37,14 +41,13 @@ async function helpCommand(interaction, client) {
     },
   );
 
-  ticketHistory.set(sentMessage.id, {
+  createTicket({
+    logMessageId: sentMessage.id,
     channelId: interaction.channel.id,
     channelName: interaction.channel.name,
     userId: interaction.user.id,
     userName: interaction.user.username,
-    challengeName: challengeNameInput,
-    timestamp: Date.now(),
-    status: "open",
+    challenge: challengeNameInput,
   });
 
   await interaction.editReply("Ticket envoyé !");
@@ -59,7 +62,7 @@ async function helpCommand(interaction, client) {
  */
 async function handleBoutonHelp(client, interaction) {
   if (interaction.customId === "take") {
-    const ticketInfo = ticketHistory.get(interaction.message.id);
+    const ticketInfo = getTicketByMessageId(interaction.message.id);
 
     if (!ticketInfo) {
       console.error("Ticket not found in history");
@@ -70,7 +73,7 @@ async function handleBoutonHelp(client, interaction) {
       return;
     }
 
-    if (ticketInfo.status !== "open") {
+    if (!takeTicket(interaction.message.id, interaction.user.id)) {
       await interaction.reply({
         content: "Ce ticket a déjà été pris",
         ephemeral: true,
@@ -78,17 +81,12 @@ async function handleBoutonHelp(client, interaction) {
       return;
     }
 
-    // Update ticket status
-    ticketInfo.status = "taken";
-    ticketInfo.takenBy = interaction.user.id;
-    ticketInfo.takenAt = Date.now();
-
-    const originalChannelId = interaction.message.embeds[0].fields[0].value;
+    const originalChannelId = ticketInfo.channel_id;
 
     await interaction.update(
       {
         embeds: [
-          createPrisTicketEmbed(ticketInfo.channelName, interaction.user),
+          createPrisTicketEmbed(ticketInfo.channel_name, interaction.user),
         ],
         components: [createButtonsClosedTickets()],
       },
@@ -102,7 +100,7 @@ async function handleBoutonHelp(client, interaction) {
   }
 
   if (interaction.customId === "closed") {
-    const ticketInfo = ticketHistory.get(interaction.message.id);
+    const ticketInfo = getTicketByMessageId(interaction.message.id);
 
     if (!ticketInfo) {
       console.error("Ticket not found in history");
@@ -113,12 +111,18 @@ async function handleBoutonHelp(client, interaction) {
       return;
     }
 
-    ticketInfo.status = "closed";
+    if (!closeTicket(interaction.message.id, interaction.user.id)) {
+      await interaction.reply({
+        content: "Ce ticket est déjà fermé",
+        ephemeral: true,
+      });
+      return;
+    }
 
     await interaction.update(
       {
         embeds: [
-          CreateClosedTicketsEmbed(ticketInfo.channelName, interaction.user),
+          CreateClosedTicketsEmbed(ticketInfo.channel_name, interaction.user),
         ],
         components: [],
       },
