@@ -4,7 +4,7 @@
 - **/help** : Envoie un ticket aux admins pour obtenir du support (dans un channel `equipe-XX`)
 - **/tickets [status]** : Liste des tickets ouverts / pris (rôle `moderator` ou `ADMIN_ROLE` requis)
 - **/stats [view] [since]** : Statistiques des tickets — tout par défaut, ou vue d'ensemble, par équipe, par challenge, par admin (rôle `moderator` ou `ADMIN_ROLE` requis)
-- **/team-broadcast** : Envoie un message à tous les channels `equipe-XX` et `equipe-test` (rôle `moderator` requis)
+- **/team-broadcast [team] [title] [attachment]** : Ouvre une fenêtre pour écrire le message (multi-lignes), affiche un aperçu puis l'envoie à tous les channels d'équipe ou à une seule équipe (rôle `moderator` requis)
 
 ## Moyens d'utiliser le bot
 - docker-compose
@@ -40,7 +40,7 @@
 | `TEAM_CHANNEL_PREFIX` | non | `equipe-` | Préfixe des channels d'équipe (`equipe-XX`) |
 | `TEAM_CHANNEL_EXTRA` | non | `test` | Autres noms acceptés, séparés par des virgules |
 | `MODERATOR_ROLE` | non | `moderator` | Rôle des commandes modérateur |
-| `ADMIN_ROLE` | non | `MODERATOR_ROLE` | Rôle pingé pour les tickets en attente (doit être mentionnable) |
+| `ADMIN_ROLE` | non | `challenges designer` | Rôle pingé pour les tickets en attente (doit être mentionnable) |
 | `TICKET_STALE_MINUTES` | non | `5` | Délai avant de pinger `ADMIN_ROLE` pour un ticket non pris |
 | `DB_PATH` | non | `db/bot.sqlite` | Fichier de la base SQLite (tickets) |
 

@@ -21,8 +21,7 @@ const config = {
     .map((name) => name.trim())
     .filter(Boolean),
   moderatorRole: process.env.MODERATOR_ROLE || "moderator",
-  adminRole:
-    process.env.ADMIN_ROLE || process.env.MODERATOR_ROLE || "moderator",
+  adminRole: process.env.ADMIN_ROLE || "challenges designer",
   ticketStaleMinutes: Number(process.env.TICKET_STALE_MINUTES) || 5,
   dbPath: process.env.DB_PATH || "db/bot.sqlite",
 };

@@ -23,13 +23,24 @@ const commands = [
   },
   {
     name: "team-broadcast",
-    description: "Broadcast a message to all teams",
+    description: "Envoyer un message aux équipes (moderator only)",
     options: [
       {
-        name: "message",
-        description: "The message to broadcast",
+        name: "team",
+        description: "Une seule équipe (défaut : toutes)",
+        type: 7,
+        channel_types: [0],
+      },
+      {
+        name: "title",
+        description: "Titre (le message est envoyé en embed)",
         type: 3,
-        required: true,
+        max_length: 256,
+      },
+      {
+        name: "attachment",
+        description: "Fichier joint",
+        type: 11,
       },
     ],
   },

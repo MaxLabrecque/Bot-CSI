@@ -2,7 +2,11 @@ import config from "./src/config.js";
 import { handleBoutonHelp, helpCommand } from "./src/commands/HelpCommand.js";
 import BotClient from "./src/structures/BotClient.js";
 import { ActivityType } from "discord.js";
-import { sendBroadcastMessage } from "./src/commands/TeamBroadcastCommand.js";
+import {
+  handleBroadcastButton,
+  handleBroadcastModal,
+  sendBroadcastMessage,
+} from "./src/commands/TeamBroadcastCommand.js";
 import { ticketsCommand } from "./src/commands/TicketsCommand.js";
 import { statsCommand } from "./src/commands/StatsCommand.js";
 import { startStaleTicketsReminder } from "./src/tasks/StaleTicketsReminder.js";
@@ -27,7 +31,18 @@ client.on("ready", () => {
 
 client.on("interactionCreate", async (interaction) => {
   if (interaction.isButton()) {
-    await handleBoutonHelp(client, interaction);
+    if (interaction.customId.startsWith("broadcast-")) {
+      await handleBroadcastButton(client, interaction);
+    } else {
+      await handleBoutonHelp(client, interaction);
+    }
+    return;
+  }
+
+  if (interaction.isModalSubmit()) {
+    if (interaction.customId.startsWith("broadcast-modal:")) {
+      await handleBroadcastModal(interaction);
+    }
     return;
   }
 

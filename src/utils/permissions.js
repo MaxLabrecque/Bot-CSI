@@ -1,15 +1,24 @@
 import config from "../config.js";
 
 /**
- * Find a role of a guild by name (case-insensitive)
+ * Normalize a role name: lowercase, "_" and "-" treated as spaces
+ *
+ * @param {string} name The role name
+ * @returns {string}
+ */
+const normalizeRoleName = (name) =>
+  name.toLowerCase().replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
+
+/**
+ * Find a role of a guild by name (case-insensitive, "_" / "-" / " " equivalent)
  *
  * @param guild The guild
  * @param {string} roleName The role name
  * @returns The role, or undefined if not found
  */
 function findRoleByName(guild, roleName) {
-  const name = roleName.toLowerCase();
-  return guild.roles.cache.find((r) => r.name.toLowerCase() === name);
+  const name = normalizeRoleName(roleName);
+  return guild.roles.cache.find((r) => normalizeRoleName(r.name) === name);
 }
 
 /**
