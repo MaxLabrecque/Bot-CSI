@@ -4,6 +4,7 @@ import BotClient from "./src/structures/BotClient.js";
 import { ActivityType } from "discord.js";
 import { sendBroadcastMessage } from "./src/commands/TeamBroadcastCommand.js";
 import { ticketsCommand } from "./src/commands/TicketsCommand.js";
+import { statsCommand } from "./src/commands/StatsCommand.js";
 import { startStaleTicketsReminder } from "./src/tasks/StaleTicketsReminder.js";
 import { isTeamChannel } from "./src/utils/teams.js";
 
@@ -39,6 +40,11 @@ client.on("interactionCreate", async (interaction) => {
 
   if (interaction.commandName === "tickets") {
     await ticketsCommand(interaction);
+    return;
+  }
+
+  if (interaction.commandName === "stats") {
+    await statsCommand(interaction);
     return;
   }
 

@@ -49,6 +49,29 @@ const commands = [
       },
     ],
   },
+  {
+    name: "stats",
+    description: "Statistiques des tickets (moderator only)",
+    options: [
+      {
+        name: "view",
+        description: "Vue à afficher (défaut : tout)",
+        type: 3,
+        choices: [
+          { name: "Tout", value: "all" },
+          { name: "Vue d'ensemble", value: "overview" },
+          { name: "Par équipe", value: "teams" },
+          { name: "Par challenge", value: "challenges" },
+          { name: "Par admin", value: "admins" },
+        ],
+      },
+      {
+        name: "since",
+        description: "Période, ex : 30m, 24h, 7j (défaut : depuis toujours)",
+        type: 3,
+      },
+    ],
+  },
 ];
 
 /**

@@ -3,6 +3,7 @@
 ## Commande(s) possible(s) :
 - **/help** : Envoie un ticket aux admins pour obtenir du support (dans un channel `equipe-XX`)
 - **/tickets [status]** : Liste des tickets ouverts / pris (rôle `moderator` ou `ADMIN_ROLE` requis)
+- **/stats [view] [since]** : Statistiques des tickets — tout par défaut, ou vue d'ensemble, par équipe, par challenge, par admin (rôle `moderator` ou `ADMIN_ROLE` requis)
 - **/team-broadcast** : Envoie un message à tous les channels `equipe-XX` et `equipe-test` (rôle `moderator` requis)
 
 ## Moyens d'utiliser le bot
