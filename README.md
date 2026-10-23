@@ -28,6 +28,17 @@
 - Lancer la commande `npm install`
 - Lancer la commande `node index.js`
 
+### Configuration (.env)
+| Variable | Requis | Défaut | Description |
+|---|---|---|---|
+| `BOT_TOKEN` | oui | | Token du bot |
+| `CLIENT_ID` | oui | | ID de l'application Discord |
+| `LOG_CHANNEL_ID` | oui | | Channel où les tickets sont envoyés |
+| `GUILD_ID` | non | | Enregistre les commandes sur un seul serveur (mise à jour instantanée) |
+| `TEAM_CHANNEL_PREFIX` | non | `equipe-` | Préfixe des channels d'équipe (`equipe-XX`) |
+| `TEAM_CHANNEL_EXTRA` | non | `test` | Autres noms acceptés, séparés par des virgules |
+| `MODERATOR_ROLE` | non | `moderator` | Rôle des commandes modérateur |
+
 ### Ajouter de nouvelle commande
 - Ajouter le nom de la commande et la description dans registerSlashCommands.js
 - Lancer la commande `node registerSlashCommands.js`

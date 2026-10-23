@@ -1,12 +1,11 @@
-import dotenv from "dotenv";
-dotenv.config();
 import { REST, Routes } from "discord.js";
+import config from "./config.js";
 
 /**
  * Create the REST object
  * @type {REST}
  */
-const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN);
+const rest = new REST({ version: "10" }).setToken(config.botToken);
 
 // List of the commands
 const commands = [
@@ -41,9 +40,11 @@ const commands = [
  */
 try {
   console.log("Started refreshing application (/) commands.");
-  await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
-    body: commands,
-  });
+  // Guild commands update instantly (dev), global ones can take a while
+  const route = config.guildId
+    ? Routes.applicationGuildCommands(config.clientId, config.guildId)
+    : Routes.applicationCommands(config.clientId);
+  await rest.put(route, { body: commands });
 
   console.log("Successfully reloaded application (/) commands.");
 } catch (error) {

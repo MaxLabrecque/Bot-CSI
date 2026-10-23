@@ -1,4 +1,7 @@
 import { ChannelType } from "discord.js";
+import config from "../config.js";
+import { findModRole } from "../utils/permissions.js";
+import { isTeamChannel, teamChannelLabel } from "../utils/teams.js";
 
 export async function sendBroadcastMessage(interaction) {
   const guild = interaction.guild;
@@ -9,33 +12,28 @@ export async function sendBroadcastMessage(interaction) {
     });
   }
 
-  // find moderator role (case-insensitive)
-  const modRole = guild.roles.cache.find(
-    (r) => r.name.toLowerCase() === "moderator"
-  );
+  const modRole = findModRole(guild);
   if (!modRole) {
     return interaction.reply({
-      content: 'Rôle "moderator" introuvable sur ce serveur.',
+      content: `Rôle "${config.moderatorRole}" introuvable sur ce serveur.`,
       ephemeral: true,
     });
   }
   if (!interaction.member.roles.cache.has(modRole.id)) {
     return interaction.reply({
-      content:
-        "Vous devez avoir le rôle 'moderator' pour utiliser cette commande.",
+      content: `Vous devez avoir le rôle '${config.moderatorRole}' pour utiliser cette commande.`,
       ephemeral: true,
     });
   }
 
   const message = interaction.options.getString("message", true);
-  const pattern = /^(equipe-\d{2}|equipe-test)$/;
   const targets = guild.channels.cache.filter(
-    (c) => c.type === ChannelType.GuildText && pattern.test(c.name)
+    (c) => c.type === ChannelType.GuildText && isTeamChannel(c.name)
   );
 
   if (!targets.size) {
     return interaction.reply({
-      content: "Aucun canal correspondant trouvé (equipe-XX ou equipe-test).",
+      content: `Aucun canal correspondant trouvé (${teamChannelLabel()}).`,
       ephemeral: true,
     });
   }

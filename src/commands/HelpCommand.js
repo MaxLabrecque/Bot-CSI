@@ -3,6 +3,7 @@ import { createButtonAcceptTickets } from "../buttons/AcceptTicketsButton.js";
 import { createPrisTicketEmbed } from "../embed/EmbedPrisTickets.js";
 import { createButtonsClosedTickets } from "../buttons/ClosedTicketsButtons.js";
 import { CreateClosedTicketsEmbed } from "../embed/EmbedClosedTickets.js";
+import config from "../config.js";
 
 const ticketHistory = new Map();
 
@@ -21,7 +22,7 @@ async function helpCommand(interaction, client) {
     return;
   }
 
-  const logChannel = await client.channels.fetch(process.env.LOG_CHANNEL_ID);
+  const logChannel = await client.channels.fetch(config.logChannelId);
 
   const sentMessage = await logChannel.send(
     {

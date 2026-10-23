@@ -1,8 +1,9 @@
-import {} from "dotenv/config";
+import config from "./src/config.js";
 import { handleBoutonHelp, helpCommand } from "./src/commands/HelpCommand.js";
 import BotClient from "./src/structures/BotClient.js";
 import { ActivityType } from "discord.js";
 import { sendBroadcastMessage } from "./src/commands/TeamBroadcastCommand.js";
+import { isTeamChannel } from "./src/utils/teams.js";
 
 const avatarPath = "assets/logo.webp";
 
@@ -32,7 +33,7 @@ client.on("interactionCreate", async (interaction) => {
     return;
   }
 
-  if (!interaction.channel?.name?.match("equipe-([0-1][0-9]|test)")) {
+  if (!isTeamChannel(interaction.channel?.name)) {
     await interaction.reply({
       content: "Veuillez utiliser cette commande dans un channel d'équipe",
       ephemeral: true,
@@ -45,4 +46,4 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-client.login(process.env.BOT_TOKEN);
+client.login(config.botToken);
