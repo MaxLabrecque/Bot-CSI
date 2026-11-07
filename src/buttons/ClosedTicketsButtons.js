@@ -1,5 +1,4 @@
-import {ActionRowBuilder, ButtonBuilder} from 'discord.js';
-
+import { ActionRowBuilder, ButtonBuilder } from "discord.js";
 
 /**
  * Create the button to close tickets
@@ -8,11 +7,11 @@ import {ActionRowBuilder, ButtonBuilder} from 'discord.js';
  */
 function createButtonsClosedTickets() {
   const confirm = new ButtonBuilder()
-    .setCustomId('closed')
-    .setLabel('Fermer tickets')
-    .setStyle('Success');
+    .setCustomId("closed")
+    .setLabel("Fermer ticket")
+    .setStyle("Success");
 
   return new ActionRowBuilder().addComponents(confirm);
 }
 
-export {createButtonsClosedTickets}
+export { createButtonsClosedTickets };
