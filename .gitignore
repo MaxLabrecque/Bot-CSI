@@ -5,3 +5,4 @@ node_modules/
 data/
 todo.md
 /db/
+deploy.sh
